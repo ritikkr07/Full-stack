@@ -25,7 +25,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Set security headers
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'img-src': ["'self'", 'data:', 'blob:', 'https://res.cloudinary.com'],
+      'media-src': ["'self'", 'blob:', 'https://res.cloudinary.com'],
+    },
+  },
+}));
 
 // Sanitize data
 // Workaround for Express 5 where req.query, req.body, req.params are getters
@@ -57,6 +66,7 @@ app.use("/api", limiter);
 // ROUTES
 app.use("/api/auth", require("./routes/auth.routes.js"));
 app.use("/api/users", require("./routes/user.routes.js"));
+app.use("/api/upload", require("./routes/upload.routes.js"));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

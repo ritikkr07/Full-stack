@@ -1,5 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { LogOut, LayoutDashboard, User } from 'lucide-react';
+import FileUpload from '../components/FileUpload';
 
 const Home = () => {
   const { user, logout } = useAuth();
@@ -43,6 +44,9 @@ const Home = () => {
             )}
           </div>
         </div>
+
+        {/* Cloudinary File Upload Component */}
+        <FileUpload />
       </div>
     </div>
   );
